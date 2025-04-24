@@ -77,7 +77,7 @@
 <body>
 
 <header>
-    <img src="https://hosterbyte.com/wp-content/uploads/2024/06/Hosterbyte-Logo-WHMCS.png" alt="Hosterbyte Logo">
+    <img src="https://cs.hosterbyte.com/assets/img/logo.png" alt="Hosterbyte Logo">
 </header>
 
 <h2>Status Ekstensi PHP</h2>
@@ -119,6 +119,18 @@
                 . "</td>";
             echo "</tr>";
         }
+
+        // Redis & Memcached - cek tambahan info
+        function checkExtensionDetail($ext, $class) {
+            if (extension_loaded($ext)) {
+                return class_exists($class) ? "✅ Aktif" : "⚠️ Terpasang tapi class '$class' tidak ditemukan";
+            } else {
+                return "❌ Tidak Aktif";
+            }
+        }
+
+        echo "<tr><td><strong>Redis (class Redis)</strong></td><td>" . checkExtensionDetail("redis", "Redis") . "</td></tr>";
+        echo "<tr><td><strong>Memcached (class Memcached)</strong></td><td>" . checkExtensionDetail("memcached", "Memcached") . "</td></tr>";
         ?>
     </tbody>
 </table>
@@ -138,7 +150,7 @@
     $allFunctions = get_defined_functions()['internal'];
     $enabledFunctions = array_diff($allFunctions, $disabledFunctions);
     echo count($enabledFunctions) . " fungsi aktif.";
-    echo "<br><small>(Daftar sebagian: " . implode(', ', array_slice($enabledFunctions, 0, 30)) . " ...)</small>";
+    echo "<br><small>(Contoh: " . implode(', ', array_slice($enabledFunctions, 0, 30)) . " ...)</small>";
     ?>
 </div>
 
